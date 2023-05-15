@@ -1,0 +1,14 @@
+{
+  "name": "Airport Information System",
+  "icons": [
+    {
+      "src": "img/plane-icon.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
