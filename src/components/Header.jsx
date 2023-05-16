@@ -8,7 +8,7 @@ export default function Header() {
         <header>
             <div className="header-icon">
                 <Link to="/">
-                    <img width={143} height={149} src="/img/plane.png" />
+                    <img width={143} height={149} src="/img/plane.png" alt="Logo" />
                 </Link>
                 <div className="header-info">
                     <h3>Airport Information System</h3>

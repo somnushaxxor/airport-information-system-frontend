@@ -4,4 +4,6 @@ const getAll = () => {
     return httpClient.get(`/genders`);
 }
 
-export default { getAll };
+const exported = { getAll };
+
+export default exported;

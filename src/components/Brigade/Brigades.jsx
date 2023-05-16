@@ -14,7 +14,7 @@ export default function Brigades() {
     }, []);
 
     const init = () => {
-        brigadeService.getAllBrigades()
+        brigadeService.getAll()
             .then(response => {
                 setBrigades(response.data);
             })

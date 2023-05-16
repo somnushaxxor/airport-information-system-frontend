@@ -1,13 +1,15 @@
 import Header from './components/Header';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Employees from './components/Employee/Employees';
 import CreateEmployee from './components/Employee/CreateEmployee';
+import UpdateEmployee from './components/Employee/UpdateEmployee';
 import NotificationManager from './components/NotificationManager';
 import Home from './components/Home/Home';
 import Departments from './components/Department/Departments';
 import Brigades from './components/Brigade/Brigades';
+import NotFound from './components/NotFound';
 
 // import Home from './pages/Home';
 // import Actors from './pages/Actors';
@@ -40,14 +42,19 @@ export default function App() {
     <div className="wrapper clear">
       <Header />
 
-      <Route path="/" exact component={Home} />
+      <Routes>
+        <Route path="/" exact element={<Home />} />
 
-      <Route path="/employees" exact component={Employees} />
-      <Route path="/employees/create" exact component={CreateEmployee} />
+        <Route path="/employees" exact element={<Employees />} />
+        <Route path="/employees/create" exact element={<CreateEmployee />} />
+        <Route path="/employees/:id/update" exact element={<UpdateEmployee />} />
 
-      <Route path="/departments" exact component={Departments} />
+        <Route path="/departments" exact element={<Departments />} />
 
-      <Route path="/brigades" exact component={Brigades} />
+        <Route path="/brigades" exact element={<Brigades />} />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
       <NotificationManager />
 

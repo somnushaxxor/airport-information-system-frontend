@@ -12,7 +12,7 @@ const getById = (id) => {
     return httpClient.get(`/employees/${id}`);
 }
 
-const updateById = (data) => {
+const update = (data) => {
     return httpClient.put(`/employees`, data);
 }
 
@@ -28,6 +28,6 @@ const deleteById = (id) => {
 //     return httpClient.get(`/actors?pageNo=${curPage}&pageSize=${recordPerPage}&sortBy=id&name=${name}&height=${height}&age=${age}&vocals=${vocals}&gender=${gender}`);
 // }
 
+const exported = { getAll, create, getById, update, deleteById };
 
-
-export default { getAll, create, getById, updateById, deleteById };
+export default exported;

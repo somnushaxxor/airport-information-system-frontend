@@ -1,11 +1,13 @@
 import httpClient from '../http-common.js';
 
-const getAllBrigades = () => {
+const getAll = () => {
     return httpClient.get(`/brigades`);
 }
 
-const getBrigadesBy = (specializationId, departmentId) => {
+const getAllBy = (specializationId, departmentId) => {
     return httpClient.get(`/brigades?specializationId=${specializationId}&departmentId=${departmentId}`);
 }
 
-export default { getAllBrigades, getBrigadesBy };
+const exported = { getAll, getAllBy };
+
+export default exported;

@@ -7,8 +7,9 @@ import { sendError, sendSuccess } from "../NotificationManager";
 import departmentService from "../../services/department.service";
 import specializationService from "../../services/specialization.service";
 import brigadeService from "../../services/brigade.service";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function CreateEmployee() {
+export default function UpdateEmployee() {
     const [genders, setGenders] = useState([]);
     const [specializations, setSpecializations] = useState([]);
     const [departments, setDepartments] = useState([]);
@@ -21,6 +22,7 @@ export default function CreateEmployee() {
     const [lastName, setLastName] = useState("");
     const [genderId, setGenderId] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
+    const [joinedAt, setJoinedAt] = useState("");
     const [numberOfChildren, setNumberOfChildren] = useState("");
     const [salary, setSalary] = useState("");
     const [specializationId, setSpecializationId] = useState("");
@@ -29,11 +31,42 @@ export default function CreateEmployee() {
 
     const [validated, setValidated] = useState(false);
 
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     useEffect(() => {
         init();
     }, []);
 
     const init = () => {
+        employeesService.getById(id)
+            .then(response => {
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
+                setGenderId(response.data.genderId);
+                setDateOfBirth(response.data.dateOfBirth);
+                setJoinedAt(response.data.joinedAt);
+                setNumberOfChildren(response.data.numberOfChildren);
+                setSalary(response.data.salary);
+                setSpecializationId(response.data.specializationId);
+                setDepartmentId(response.data.departmentId);
+                if (response.data.brigadeId) {
+                    setBrigadeSelectionCheckboxChecked(true);
+                    setBrigadeSelectionDisabled(false);
+                    brigadeService.getAllBy(response.data.specializationId, response.data.departmentId)
+                        .then(response => {
+                            setBrigades(response.data);
+                        })
+                        .catch(() => {
+                            sendError("Failed to fetch brigades");
+                        });
+                    setBrigadeId(response.data.brigadeId);
+                }
+            })
+            .catch(() => {
+                navigate("/404");
+            });
+
         genderService.getAll()
             .then(response => {
                 setGenders(response.data);
@@ -70,15 +103,12 @@ export default function CreateEmployee() {
         } else {
             setValidated(false);
             const employee = {
-                firstName, lastName, genderId, dateOfBirth, numberOfChildren,
+                id, firstName, lastName, genderId, dateOfBirth, joinedAt, numberOfChildren,
                 salary, specializationId, departmentId, brigadeId
             };
-            employeesService.create(employee)
+            employeesService.update(employee)
                 .then(() => {
-                    sendSuccess("Employee successfully created");
-                    setBrigadeSelectionCheckboxChecked(false);
-                    form.reset();
-                    clearState();
+                    sendSuccess("Employee successfully updated");
                 })
                 .catch(() => {
                     sendError("Failed to submit form. Please, try again");
@@ -86,38 +116,25 @@ export default function CreateEmployee() {
         }
     };
 
-    const clearState = () => {
-        setFirstName("");
-        setLastName("");
-        setGenderId("");
-        setDateOfBirth("");
-        setNumberOfChildren("");
-        setSalary("");
-        setSpecializationId("");
-        setDepartmentId("");
-        setBrigadeId("");
-    }
-
-
     return (
         <div className="container">
-            <h1 className="text-uppercase" style={{ marginTop: 20, marginBottom: 20 }}>Create employee</h1>
+            <h1 className="text-uppercase" style={{ marginTop: 20, marginBottom: 20 }}>Update employee</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>First name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter first name" onChange={(e) => {
+                    <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={(e) => {
                         setFirstName(e.target.value);
                     }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Last name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter last name" onChange={(e) => {
+                    <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={(e) => {
                         setLastName(e.target.value);
                     }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Gender</Form.Label>
-                    <Form.Select onChange={(e) => {
+                    <Form.Select value={genderId} onChange={(e) => {
                         setGenderId(e.target.value);
                     }} required>
                         <option value="">Choose gender</option>
@@ -130,25 +147,31 @@ export default function CreateEmployee() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of birth</Form.Label>
-                    <Form.Control type="date" max={new Date().toLocaleDateString('fr-ca')} placeholder="Date of birth" onChange={(e) => {
+                    <Form.Control type="date" max={new Date().toLocaleDateString('fr-ca')} value={dateOfBirth} placeholder="Date of birth" onChange={(e) => {
                         setDateOfBirth(e.target.value);
                     }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
+                    <Form.Label>Joined at</Form.Label>
+                    <Form.Control type="date" max={new Date().toLocaleDateString('fr-ca')} value={joinedAt} placeholder="Joined at" onChange={(e) => {
+                        setJoinedAt(e.target.value);
+                    }} required />
+                </Form.Group>
+                <Form.Group className="mb-3">
                     <Form.Label>Number of children</Form.Label>
-                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} placeholder="Enter number of children" onChange={(e) => {
+                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} value={numberOfChildren} placeholder="Enter number of children" onChange={(e) => {
                         setNumberOfChildren(e.target.value);
                     }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Salary</Form.Label>
-                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} placeholder="Enter salary" onChange={(e) => {
+                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} value={salary} placeholder="Enter salary" onChange={(e) => {
                         setSalary(e.target.value);
                     }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Specialization</Form.Label>
-                    <Form.Select onChange={(e) => {
+                    <Form.Select value={specializationId} onChange={(e) => {
                         setSpecializationId(e.target.value);
                         setBrigadeSelectionCheckboxChecked(false);
                         setBrigadeSelectionDisabled(true);
@@ -165,7 +188,7 @@ export default function CreateEmployee() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Department</Form.Label>
-                    <Form.Select onChange={(e) => {
+                    <Form.Select value={departmentId} onChange={(e) => {
                         setDepartmentId(e.target.value);
                         setBrigadeSelectionCheckboxChecked(false);
                         setBrigadeSelectionDisabled(true);
@@ -206,7 +229,7 @@ export default function CreateEmployee() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Brigade</Form.Label>
-                    <Form.Select disabled={brigadeSelectionDisabled} onChange={(e) => {
+                    <Form.Select disabled={brigadeSelectionDisabled} value={brigadeId} onChange={(e) => {
                         setBrigadeId(e.target.value);
                     }} required>
                         <option value="">Choose brigade</option>
