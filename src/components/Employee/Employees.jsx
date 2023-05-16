@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
+import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import employeesService from '../../services/employee.service';
 import { sendError, sendSuccess } from '../NotificationManager';
@@ -21,6 +22,10 @@ export default function Employees() {
 
     const errorAttribute = "ERROR";
     const nullAttribute = "-";
+
+    const [genderId, setGenderId] = useState("");
+
+    const [validated, setValidated] = useState(false);
 
     React.useEffect(() => {
         init();
@@ -48,20 +53,20 @@ export default function Employees() {
             .catch(() => {
                 sendError("Failed to fetch departments");
             });
-        employeesService.getAll()
-            .then(response => {
-                setEmployees(response.data);
-            })
-            .catch(() => {
-                sendError("Failed to fetch employees");
-            });
         brigadeService.getAll()
             .then(response => {
                 setBrigades(response.data);
             })
             .catch(() => {
                 sendError("Failed to fetch employees");
+            });
+        employeesService.getAllFiltered(genderId)
+            .then(response => {
+                setEmployees(response.data);
             })
+            .catch(() => {
+                sendError("Failed to fetch employees");
+            });
     }
 
     const handleDelete = id => {
@@ -118,10 +123,47 @@ export default function Employees() {
         return errorAttribute;
     }
 
+    const handleSearch = (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        } else {
+            employeesService.getAllFiltered(genderId)
+                .then(response => {
+                    setEmployees(response.data);
+                })
+                .catch(() => {
+                    sendError("Failed to fetch employees");
+                });
+        }
+    };
+
     return (
         <div className="content p-40">
             <div className="align-left justify-between">
                 <h1 className="text-uppercase" style={{ marginLeft: 40 }}>Employees</h1>
+            </div>
+
+            <div className="filter">
+                <Form noValidate validated={validated} onSubmit={handleSearch}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Gender</Form.Label>
+                        <Form.Select onChange={(e) => {
+                            setGenderId(e.target.value);
+                        }}>
+                            <option value="">Choose gender</option>
+                            {
+                                genders.map(gender => (
+                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                ))
+                            }
+                        </Form.Select>
+                    </Form.Group>
+                    <Button className="mb-3" variant="primary" type="submit">
+                        Search
+                    </Button>
+                </Form>
             </div>
 
             <div className="newsPanel d-flex flex-wrap">

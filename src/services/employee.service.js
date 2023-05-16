@@ -1,7 +1,7 @@
 import httpClient from '../http-common.js';
 
-const getAll = () => {
-    return httpClient.get(`/employees`);
+const getAllFiltered = (genderId) => {
+    return httpClient.get(`/employees?genderId=${genderId}`);
 }
 
 const create = (data) => {
@@ -28,6 +28,6 @@ const deleteById = (id) => {
 //     return httpClient.get(`/actors?pageNo=${curPage}&pageSize=${recordPerPage}&sortBy=id&name=${name}&height=${height}&age=${age}&vocals=${vocals}&gender=${gender}`);
 // }
 
-const exported = { getAll, create, getById, update, deleteById };
+const exported = { getAllFiltered, create, getById, update, deleteById };
 
 export default exported;
