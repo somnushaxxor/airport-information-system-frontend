@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import employeesService from "../../services/employee.service";
 import genderService from "../../services/gender.service";
@@ -29,6 +28,8 @@ export default function CreateEmployee() {
 
     const [validated, setValidated] = useState(false);
 
+    const errorMessage = "Something went wrong. Please try again a bit later.";
+
     useEffect(() => {
         init();
     }, []);
@@ -39,21 +40,21 @@ export default function CreateEmployee() {
                 setGenders(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch genders");
+                sendError(errorMessage);
             });
         specializationService.getAll()
             .then(response => {
                 setSpecializations(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch specializations");
+                sendError(errorMessage);
             });
         departmentService.getAll()
             .then(response => {
                 setDepartments(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch departments");
+                sendError(errorMessage);
             });
     }
 
@@ -75,13 +76,13 @@ export default function CreateEmployee() {
             };
             employeesService.create(employee)
                 .then(() => {
-                    sendSuccess("Employee successfully created");
+                    sendSuccess("Employee successfully created.");
                     setBrigadeSelectionCheckboxChecked(false);
                     form.reset();
                     clearState();
                 })
                 .catch(() => {
-                    sendError("Failed to submit form. Please, try again");
+                    sendError("Failed to submit form. Please try again a bit later");
                 });
         }
     };
@@ -100,8 +101,8 @@ export default function CreateEmployee() {
 
 
     return (
-        <div className="container">
-            <h1 className="text-uppercase" style={{ marginTop: 20, marginBottom: 20 }}>Create employee</h1>
+        <div className="content">
+            <h1 className="text-uppercase mb-30">Create employee</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>First name</Form.Label>
@@ -130,21 +131,24 @@ export default function CreateEmployee() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of birth</Form.Label>
-                    <Form.Control type="date" max={new Date().toLocaleDateString('fr-ca')} placeholder="Date of birth" onChange={(e) => {
-                        setDateOfBirth(e.target.value);
-                    }} required />
+                    <Form.Control type="date" max={new Date().toLocaleDateString("fr-ca")}
+                        placeholder="Date of birth" onChange={(e) => {
+                            setDateOfBirth(e.target.value);
+                        }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Number of children</Form.Label>
-                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} placeholder="Enter number of children" onChange={(e) => {
-                        setNumberOfChildren(e.target.value);
-                    }} required />
+                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1}
+                        placeholder="Enter number of children" onChange={(e) => {
+                            setNumberOfChildren(e.target.value);
+                        }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Salary</Form.Label>
-                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} placeholder="Enter salary" onChange={(e) => {
-                        setSalary(e.target.value);
-                    }} required />
+                    <Form.Control type="number" min="0" max={Math.pow(2, 31) - 1} placeholder="Enter salary"
+                        onChange={(e) => {
+                            setSalary(e.target.value);
+                        }} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Specialization</Form.Label>
@@ -193,7 +197,7 @@ export default function CreateEmployee() {
                                         setBrigades(response.data);
                                     })
                                     .catch(() => {
-                                        sendError("Failed to fetch brigades");
+                                        sendError(errorMessage);
                                     });
                             } else {
                                 setBrigades([]);

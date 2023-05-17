@@ -1,7 +1,7 @@
 import httpClient from '../http-common.js';
 
-const getAllFiltered = (genderId) => {
-    return httpClient.get(`/employees?genderId=${genderId}`);
+const getAllFiltered = (genderId, departmentId, brigadeId, workExperienceInYears, ageInYears, numberOfChildren, salary) => {
+    return httpClient.get(`/employees?genderId=${genderId}&departmentId=${departmentId}&brigadeId=${brigadeId}&workExperienceInYears=${workExperienceInYears}&ageInYears=${ageInYears}&numberOfChildren=${numberOfChildren}&salary=${salary}`);
 }
 
 const create = (data) => {
@@ -19,14 +19,6 @@ const update = (data) => {
 const deleteById = (id) => {
     return httpClient.delete(`/employees/${id}`);
 }
-
-// const getAllSorted = (curPage, recordPerPage, sortBy) => {
-//     return httpClient.get(`/actors?pageNo=${curPage}&pageSize=${recordPerPage}&sortBy=${sortBy}&name=&height=&age=&vocals=&gender=`);
-// }
-
-// const getAllFiltered = (curPage, recordPerPage, name, gender, height, age, vocals) => {
-//     return httpClient.get(`/actors?pageNo=${curPage}&pageSize=${recordPerPage}&sortBy=id&name=${name}&height=${height}&age=${age}&vocals=${vocals}&gender=${gender}`);
-// }
 
 const exported = { getAllFiltered, create, getById, update, deleteById };
 

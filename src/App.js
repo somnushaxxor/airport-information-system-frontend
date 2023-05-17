@@ -1,7 +1,5 @@
 import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Employees from './components/Employee/Employees';
 import CreateEmployee from './components/Employee/CreateEmployee';
 import UpdateEmployee from './components/Employee/UpdateEmployee';
@@ -39,7 +37,7 @@ import NotFound from './components/NotFound';
 export default function App() {
 
   return (
-    <div className="wrapper clear">
+    <div className="wrapper">
       <Header />
 
       <Routes>

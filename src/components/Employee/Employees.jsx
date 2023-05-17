@@ -1,33 +1,32 @@
-import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
-import { Form } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Button, Form, Row, Col } from 'react-bootstrap';
 import employeesService from '../../services/employee.service';
 import { sendError, sendSuccess } from '../NotificationManager';
 import genderService from '../../services/gender.service';
-import specializationService from '../../services/specialization.service';
 import departmentService from '../../services/department.service';
 import brigadeService from '../../services/brigade.service';
 
 export default function Employees() {
     const [genders, setGenders] = useState([]);
-    const [specializations, setSpecializations] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [brigades, setBrigades] = useState([]);
 
-    const [employees, setEmployees] = React.useState([]);
-
-    const errorAttribute = "ERROR";
-    const nullAttribute = "-";
+    const [employees, setEmployees] = useState([]);
 
     const [genderId, setGenderId] = useState("");
+    const [departmentId, setDepartmentId] = useState("");
+    const [brigadeId, setBrigadeId] = useState("");
+    const [workExperienceInYears, setWorkExperienceInYears] = useState("");
+    const [ageInYears, setAgeInYears] = useState("");
+    const [numberOfChildren, setNumberOfChildren] = useState("");
+    const [salary, setSalary] = useState("");
 
-    const [validated, setValidated] = useState(false);
+    const errorMessage = "Something went wrong. Please try again a bit later.";
 
-    React.useEffect(() => {
+    useEffect(() => {
         init();
     }, []);
 
@@ -37,90 +36,52 @@ export default function Employees() {
                 setGenders(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch genders");
-            });
-        specializationService.getAll()
-            .then(response => {
-                setSpecializations(response.data);
-            })
-            .catch(() => {
-                sendError("Failed to fetch specializations");
+                sendError(errorMessage);
             });
         departmentService.getAll()
             .then(response => {
                 setDepartments(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch departments");
+                sendError(errorMessage);
             });
         brigadeService.getAll()
             .then(response => {
                 setBrigades(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch employees");
+                sendError(errorMessage);
             });
-        employeesService.getAllFiltered(genderId)
+        employeesService.getAllFiltered(genderId, departmentId, brigadeId, workExperienceInYears, ageInYears,
+            numberOfChildren, salary)
             .then(response => {
                 setEmployees(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch employees");
+                sendError(errorMessage);
             });
     }
 
-    const handleDelete = id => {
+    const reloadEmployees = () => {
+        employeesService.getAllFiltered(genderId, departmentId, brigadeId, workExperienceInYears, ageInYears,
+            numberOfChildren, salary)
+            .then(response => {
+                setEmployees(response.data);
+            })
+            .catch(() => {
+                sendError(errorMessage);
+            });
+    }
+
+    const handleEmployeeDelete = id => {
         employeesService.deleteById(id)
             .then(() => {
-                sendSuccess("Employee successfully deleted")
-                init();
+                sendSuccess("Employee successfully deleted.")
+                reloadEmployees();
             })
             .catch(error => {
                 sendError(error.response.data.message);
             })
-    }
-
-    const getGenderName = (genderId) => {
-        const gender = genders.find(gender => {
-            return gender.id === genderId;
-        });
-        if (gender) {
-            return gender.name;
-        }
-        return errorAttribute;
-    }
-
-    const getSpecializationName = (specializationId) => {
-        const specialization = specializations.find(specialization => {
-            return specialization.id === specializationId;
-        });
-        if (specialization) {
-            return specialization.name;
-        }
-        return errorAttribute;
-    }
-
-    const getDepartmentName = (departmentId) => {
-        const department = departments.find(department => {
-            return department.id === departmentId;
-        });
-        if (department) {
-            return department.name;
-        }
-        return errorAttribute;
-    }
-
-    const getBrigadeName = (brigadeId) => {
-        if (!brigadeId) {
-            return nullAttribute;
-        }
-        const brigade = brigades.find(brigade => {
-            return brigade.id === brigadeId;
-        });
-        if (brigade) {
-            return brigade.name;
-        }
-        return errorAttribute;
     }
 
     const handleSearch = (event) => {
@@ -129,51 +90,143 @@ export default function Employees() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            employeesService.getAllFiltered(genderId)
+            employeesService.getAllFiltered(genderId, departmentId, brigadeId, workExperienceInYears, ageInYears,
+                numberOfChildren, salary)
                 .then(response => {
                     setEmployees(response.data);
                 })
                 .catch(() => {
-                    sendError("Failed to fetch employees");
+                    sendError(errorMessage);
                 });
         }
     };
 
-    return (
-        <div className="content p-40">
-            <div className="align-left justify-between">
-                <h1 className="text-uppercase" style={{ marginLeft: 40 }}>Employees</h1>
-            </div>
+    const handleClear = () => {
+        setGenderId("");
+        setDepartmentId("");
+        setBrigadeId("");
+        setWorkExperienceInYears("");
+        setAgeInYears("");
+        setNumberOfChildren("");
+        setSalary("");
+        setBrigades([]);
+        brigadeService.getAll()
+            .then(response => {
+                setBrigades(response.data);
+            })
+            .catch(() => {
+                sendError(errorMessage);
+            });
+    }
 
-            <div className="filter">
-                <Form noValidate validated={validated} onSubmit={handleSearch}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Gender</Form.Label>
-                        <Form.Select onChange={(e) => {
-                            setGenderId(e.target.value);
-                        }}>
-                            <option value="">Choose gender</option>
-                            {
-                                genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))
-                            }
-                        </Form.Select>
-                    </Form.Group>
-                    <Button className="mb-3" variant="primary" type="submit">
+    return (
+        <div className="content">
+            <h1 className="text-uppercase mb-30">Employees</h1>
+            <div>
+                <Form noValidate onSubmit={handleSearch} onReset={handleClear} className="mb-30">
+                    <Row className="mb-3">
+                        <Form.Group as={Col}>
+                            <Form.Label>Gender</Form.Label>
+                            <Form.Select value={genderId} onChange={(e) => {
+                                setGenderId(e.target.value);
+                            }}>
+                                <option value="">Choose gender</option>
+                                {
+                                    genders.map(gender => (
+                                        <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                    ))
+                                }
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Label>Department</Form.Label>
+                            <Form.Select value={departmentId} onChange={(e) => {
+                                setDepartmentId(e.target.value);
+                                setBrigadeId("");
+                                setBrigades([]);
+                                brigadeService.getAllBy("", e.target.value)
+                                    .then(response => {
+                                        setBrigades(response.data);
+                                    })
+                                    .catch(() => {
+                                        sendError(errorMessage);
+                                    });
+                            }}>
+                                <option value="">Choose department</option>
+                                {
+                                    departments.map(department => (
+                                        <option key={department.id} value={department.id}>
+                                            {department.name}
+                                        </option>
+                                    ))
+                                }
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Label>Brigade</Form.Label>
+                            <Form.Select value={brigadeId} onChange={(e) => {
+                                setBrigadeId(e.target.value);
+                            }}>
+                                <option value="">Choose brigade</option>
+                                {
+                                    brigades.map(brigade => (
+                                        <option key={brigade.id} value={brigade.id}>{brigade.name}</option>
+                                    ))
+                                }
+                            </Form.Select>
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col}>
+                            <Form.Label>Work experience in years</Form.Label>
+                            <Form.Control value={workExperienceInYears} type="number" min="0"
+                                max={Math.pow(2, 31) - 1} placeholder="Enter work experience in years"
+                                onChange={(e) => {
+                                    setWorkExperienceInYears(e.target.value);
+                                }} />
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Label>Age in years</Form.Label>
+                            <Form.Control value={ageInYears} type="number" min="0" max={Math.pow(2, 31) - 1}
+                                placeholder="Enter age in years" onChange={(e) => {
+                                    setAgeInYears(e.target.value);
+                                }} />
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Label>Number of children</Form.Label>
+                            <Form.Control value={numberOfChildren} type="number" min="0" max={Math.pow(2, 31) - 1}
+                                placeholder="Enter number of children" onChange={(e) => {
+                                    setNumberOfChildren(e.target.value);
+                                }} />
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Label>Salary</Form.Label>
+                            <Form.Control value={salary} type="number" min="0" max={Math.pow(2, 31) - 1}
+                                placeholder="Enter salary" onChange={(e) => {
+                                    setSalary(e.target.value);
+                                }} />
+                        </Form.Group>
+                    </Row>
+                    <Button style={{ marginRight: 10 }} variant="info" size="lg" type="submit">
                         Search
+                    </Button>
+                    <Button variant="warning" size="lg" type="reset">
+                        Clear
                     </Button>
                 </Form>
             </div>
 
-            <div className="newsPanel d-flex flex-wrap">
-                <Link to="/employees/create" className="btn btn-success btn-lg mb-2" style={{ marginLeft: 40, marginTop: 40 }}>Create employee</Link>
-                <Badge className="align-right mb-3" bg="dark" style={{ marginLeft: 40, marginTop: 40 }}><h5>Total: {employees.length}</h5></Badge>
-                <Table style={{ marginTop: 20, marginRight: 40, marginLeft: 40 }} striped bordered hover variant="dark">
+            <div className="d-flex flex-wrap">
+                <Link to="/employees/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                    Create employee
+                </Link>
+                <h4 className="mb-20">
+                    <Badge bg="dark">Total: {employees.length}</Badge>
+                </h4>
+                <Table striped bordered hover variant="dark">
                     <thead >
                         <tr>
-                            <th>First name</th>
-                            <th>Last name</th>
+                            <th>Name</th>
                             <th>Gender</th>
                             <th>Data of birth</th>
                             <th>Joined at</th>
@@ -189,19 +242,24 @@ export default function Employees() {
                         {
                             employees.map(employee => (
                                 <tr key={employee.id}>
-                                    <td>{employee.firstName}</td>
-                                    <td>{employee.lastName}</td>
-                                    <td>{getGenderName(employee.genderId)}</td>
+                                    <td>{employee.name}</td>
+                                    <td>{employee.genderName}</td>
                                     <td>{employee.dateOfBirth}</td>
                                     <td>{employee.joinedAt}</td>
                                     <td>{employee.numberOfChildren}</td>
                                     <td>{employee.salary}</td>
-                                    <td>{getSpecializationName(employee.specializationId)}</td>
-                                    <td>{getDepartmentName(employee.departmentId)}</td>
-                                    <td>{getBrigadeName(employee.brigadeId)}</td>
+                                    <td>{employee.specializationName}</td>
+                                    <td>{employee.departmentName}</td>
+                                    <td>{employee.brigadeName}</td>
                                     <td>
-                                        <Link className="btn btn-primary" to={`/employees/${employee.id}/update`}>Update</Link>
-                                        <Button variant="danger" style={{ marginLeft: 5 }} onClick={(e) => { handleDelete(employee.id) }}>Delete</Button>
+                                        <Link className="btn btn-primary" style={{ marginRight: 10 }}
+                                            to={`/employees/${employee.id}/update`}>
+                                            Update
+                                        </Link>
+                                        <Button variant="danger"
+                                            onClick={(e) => { handleEmployeeDelete(employee.id) }}>
+                                            Delete
+                                        </Button>
                                     </td>
                                 </tr>
                             ))
