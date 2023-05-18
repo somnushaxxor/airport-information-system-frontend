@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import employeesService from "../../services/employee.service";
 import genderService from "../../services/gender.service";
-import { sendError, sendSuccess } from "../NotificationManager";
+import { sendError, sendSuccess, errorMessage } from "../NotificationManager";
 import departmentService from "../../services/department.service";
 import specializationService from "../../services/specialization.service";
 import brigadeService from "../../services/brigade.service";
@@ -33,8 +33,6 @@ export default function UpdateEmployee() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const errorMessage = "Something went wrong. Please try again a bit later.";
-
     useEffect(() => {
         init();
     }, []);
@@ -64,7 +62,7 @@ export default function UpdateEmployee() {
                     setBrigadeId(response.data.brigadeId);
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 if (!error.response) {
                     sendError(errorMessage);
                 } else {
@@ -115,8 +113,12 @@ export default function UpdateEmployee() {
                 .then(() => {
                     sendSuccess("Employee successfully updated.");
                 })
-                .catch(() => {
-                    sendError("Failed to submit form. Please try again a bit later.");
+                .catch(error => {
+                    if (!error.response) {
+                        sendError(errorMessage);
+                    } else {
+                        sendError(error.response.data.message);
+                    }
                 });
         }
     };

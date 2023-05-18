@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function Header() {
     return (
@@ -13,13 +14,12 @@ export default function Header() {
             </div>
 
             <Navbar className="header-menu" bg="primary">
-                <Nav >
-                    <Nav.Link href="/employees">Employees</Nav.Link>
-                </Nav>
-                <Nav >
-                    <Nav.Link href="/departments">Departments</Nav.Link>
-                </Nav>
                 <Nav className="me-auto">
+                    <NavDropdown title="Employees">
+                        <NavDropdown.Item href="/employees">Employees</NavDropdown.Item>
+                        <NavDropdown.Item href="/specializations">Specializations</NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Link href="/departments">Departments</Nav.Link>
                     <Nav.Link href="/brigades">Brigades</Nav.Link>
                 </Nav>
             </Navbar>

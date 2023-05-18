@@ -1,15 +1,15 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
 import { Button } from 'react-bootstrap';
+import { sendError, sendSuccess, errorMessage } from '../NotificationManager';
 import brigadeService from '../../services/brigade.service';
-import { sendError } from '../NotificationManager';
 
 export default function Brigades() {
-    const [brigades, setBrigades] = React.useState([]);
+    const [brigades, setBrigades] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         init();
     }, []);
 
@@ -19,32 +19,42 @@ export default function Brigades() {
                 setBrigades(response.data);
             })
             .catch(() => {
-                sendError("Failed to fetch brigades");
+                sendError(errorMessage);
+            });
+    }
+
+    const reloadBrigades = () => {
+        brigadeService.getAll()
+            .then(response => {
+                setBrigades(response.data);
+            })
+            .catch(() => {
+                sendError(errorMessage);
+            });
+    }
+
+    const handleBrigadeDelete = (id) => {
+        brigadeService.deleteById(id)
+            .then(() => {
+                sendSuccess("Brigade successfully deleted.")
+                reloadBrigades();
+            })
+            .catch(error => {
+                sendError(error.response.data.message);
             })
     }
 
-    const handleDelete = id => {
-        // employeesService.deleteById(id)
-        //     .then(() => {
-        //         sendSuccess("Employee deleted successfully!")
-        //         init();
-        //     })
-        //     .catch(error => {
-        //         sendError(error.response.data.message);
-        //     })
-    }
-
     return (
-        <div className="content p-40">
-            <div className="align-left justify-between">
-                <h1 className="text-uppercase" style={{ marginLeft: 40 }}>Brigades</h1>
-            </div>
-
-            <div className="newsPanel d-flex flex-wrap">
-
-                <Link to="/brigades/create" className="btn btn-success btn-lg mb-2" style={{ marginLeft: 40, marginTop: 40 }}>Create brigade</Link>
-                <Badge className="align-right mb-3" bg="dark" style={{ marginLeft: 40, marginTop: 40 }}><h5>Total: {brigades.length}</h5></Badge>
-                <Table style={{ marginTop: 20, marginRight: 40, marginLeft: 40 }} striped bordered hover variant="dark">
+        <div className="content">
+            <h1 className="text-uppercase mb-30">Brigades</h1>
+            <div className="d-flex flex-wrap">
+                <Link to="/departments/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                    Create brigade
+                </Link>
+                <h4 className="mb-20">
+                    <Badge bg="dark">Total: {brigades.length}</Badge>
+                </h4>
+                <Table striped bordered hover variant="dark">
                     <thead >
                         <tr>
                             <th>Name</th>
@@ -58,11 +68,17 @@ export default function Brigades() {
                             brigades.map(brigade => (
                                 <tr key={brigade.id}>
                                     <td>{brigade.name}</td>
-                                    <td>{brigade.department}</td>
-                                    <td>{brigade.specialization}</td>
+                                    <td>{brigade.departmentName}</td>
+                                    <td>{brigade.specializationName}</td>
                                     <td>
-                                        <Link className="btn btn-primary" to="/brigades/update">Update</Link>
-                                        <Button variant="danger" style={{ marginLeft: 5 }} onClick={(e) => { handleDelete(brigade.id) }}>Delete</Button>
+                                        <Link className="btn btn-primary" style={{ marginRight: 10 }}
+                                            to={`/brigades/${brigade.id}/update`}>
+                                            Update
+                                        </Link>
+                                        <Button variant="danger"
+                                            onClick={(e) => { handleBrigadeDelete(brigade.id) }}>
+                                            Delete
+                                        </Button>
                                     </td>
                                 </tr>
                             ))

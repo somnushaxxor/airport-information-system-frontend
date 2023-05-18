@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import employeesService from '../../services/employee.service';
-import { sendError, sendSuccess } from '../NotificationManager';
+import { sendError, sendSuccess, errorMessage } from '../NotificationManager';
 import genderService from '../../services/gender.service';
 import departmentService from '../../services/department.service';
 import brigadeService from '../../services/brigade.service';
@@ -23,8 +23,6 @@ export default function Employees() {
     const [ageInYears, setAgeInYears] = useState("");
     const [numberOfChildren, setNumberOfChildren] = useState("");
     const [salary, setSalary] = useState("");
-
-    const errorMessage = "Something went wrong. Please try again a bit later.";
 
     useEffect(() => {
         init();
@@ -73,14 +71,18 @@ export default function Employees() {
             });
     }
 
-    const handleEmployeeDelete = id => {
+    const handleEmployeeDelete = (id) => {
         employeesService.deleteById(id)
             .then(() => {
                 sendSuccess("Employee successfully deleted.")
                 reloadEmployees();
             })
             .catch(error => {
-                sendError(error.response.data.message);
+                if (!error.response) {
+                    sendError(errorMessage);
+                } else {
+                    sendError(error.response.data.message);
+                }
             })
     }
 

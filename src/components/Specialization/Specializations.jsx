@@ -4,40 +4,40 @@ import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
 import { Button } from 'react-bootstrap';
 import { sendError, sendSuccess, errorMessage } from '../NotificationManager';
-import departmentService from '../../services/department.service';
+import specializationService from "../../services/specialization.service";
 
-export default function Departments() {
-    const [departments, setDepartments] = useState([]);
+export default function Specializations() {
+    const [specializations, setSpecializations] = useState([]);
 
     useEffect(() => {
         init();
     }, []);
 
     const init = () => {
-        departmentService.getAll()
+        specializationService.getAll()
             .then(response => {
-                setDepartments(response.data);
+                setSpecializations(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const reloadDepartments = () => {
-        departmentService.getAll()
+    const reloadSpecializations = () => {
+        specializationService.getAll()
             .then(response => {
-                setDepartments(response.data);
+                setSpecializations(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const handleDepartmentDelete = (id) => {
-        departmentService.deleteById(id)
+    const handleSpecializationDelete = (id) => {
+        specializationService.deleteById(id)
             .then(() => {
-                sendSuccess("Department successfully deleted.")
-                reloadDepartments();
+                sendSuccess("Specialization successfully deleted.")
+                reloadSpecializations();
             })
             .catch(() => {
                 sendError(errorMessage);
@@ -46,35 +46,33 @@ export default function Departments() {
 
     return (
         <div className="content">
-            <h1 className="text-uppercase mb-30">Departments</h1>
+            <h1 className="text-uppercase mb-30">Specializations</h1>
             <div className="d-flex flex-wrap">
                 <Link to="/departments/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
-                    Create department
+                    Create specialization
                 </Link>
                 <h4 className="mb-20">
-                    <Badge bg="dark">Total: {departments.length}</Badge>
+                    <Badge bg="dark">Total: {specializations.length}</Badge>
                 </h4>
                 <Table striped bordered hover variant="dark">
                     <thead >
                         <tr>
                             <th>Name</th>
-                            <th>Chief name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            departments.map(department => (
-                                <tr key={department.id}>
-                                    <td>{department.name}</td>
-                                    <td>{department.chiefName}</td>
+                            specializations.map(specialization => (
+                                <tr key={specialization.id}>
+                                    <td>{specialization.name}</td>
                                     <td>
                                         <Link className="btn btn-primary" style={{ marginRight: 10 }}
-                                            to={`/departments/${department.id}/update`}>
+                                            to={`/specializations/${specialization.id}/update`}>
                                             Update
                                         </Link>
                                         <Button variant="danger"
-                                            onClick={(e) => { handleDepartmentDelete(department.id) }}>
+                                            onClick={(e) => { handleSpecializationDelete(specialization.id) }}>
                                             Delete
                                         </Button>
                                     </td>

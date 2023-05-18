@@ -26,3 +26,5 @@ export function sendError(message) {
 export function sendSuccess(message) {
     toast.success(message);
 }
+
+export const errorMessage = "Something went wrong. Please try again a bit later.";

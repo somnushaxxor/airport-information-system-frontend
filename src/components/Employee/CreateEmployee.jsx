@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import employeesService from "../../services/employee.service";
 import genderService from "../../services/gender.service";
-import { sendError, sendSuccess } from "../NotificationManager";
+import { sendError, sendSuccess, errorMessage } from "../NotificationManager";
 import departmentService from "../../services/department.service";
 import specializationService from "../../services/specialization.service";
 import brigadeService from "../../services/brigade.service";
@@ -27,8 +27,6 @@ export default function CreateEmployee() {
     const [brigadeId, setBrigadeId] = useState("");
 
     const [validated, setValidated] = useState(false);
-
-    const errorMessage = "Something went wrong. Please try again a bit later.";
 
     useEffect(() => {
         init();
@@ -82,7 +80,7 @@ export default function CreateEmployee() {
                     clearState();
                 })
                 .catch(() => {
-                    sendError("Failed to submit form. Please try again a bit later");
+                    sendError(errorMessage);
                 });
         }
     };
