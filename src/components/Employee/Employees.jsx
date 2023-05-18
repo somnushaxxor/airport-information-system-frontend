@@ -50,8 +50,7 @@ export default function Employees() {
             .catch(() => {
                 sendError(errorMessage);
             });
-        employeesService.getAllFiltered(genderId, departmentId, brigadeId, workExperienceInYears, ageInYears,
-            numberOfChildren, salary)
+        employeesService.getAll()
             .then(response => {
                 setEmployees(response.data);
             })
@@ -146,7 +145,7 @@ export default function Employees() {
                                 setDepartmentId(e.target.value);
                                 setBrigadeId("");
                                 setBrigades([]);
-                                brigadeService.getAllBy("", e.target.value)
+                                brigadeService.getAllFiltered("", e.target.value)
                                     .then(response => {
                                         setBrigades(response.data);
                                     })

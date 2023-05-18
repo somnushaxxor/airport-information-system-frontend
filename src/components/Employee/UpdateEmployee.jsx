@@ -52,7 +52,7 @@ export default function UpdateEmployee() {
                 if (response.data.brigadeId) {
                     setBrigadeSelectionCheckboxChecked(true);
                     setBrigadeSelectionDisabled(false);
-                    brigadeService.getAllBy(response.data.specializationId, response.data.departmentId)
+                    brigadeService.getAllFiltered(response.data.specializationId, response.data.departmentId)
                         .then(response => {
                             setBrigades(response.data);
                         })
@@ -226,7 +226,7 @@ export default function UpdateEmployee() {
                         disabled={isBrigadeSelectionCheckboxDisabled()}
                         onChange={(e) => {
                             if (e.target.checked) {
-                                brigadeService.getAllBy(specializationId, departmentId)
+                                brigadeService.getAllFiltered(specializationId, departmentId)
                                     .then(response => {
                                         setBrigades(response.data);
                                     })

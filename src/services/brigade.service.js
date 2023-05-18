@@ -4,10 +4,10 @@ const getAll = () => {
     return httpClient.get(`/brigades`);
 }
 
-const getAllBy = (specializationId, departmentId) => {
+const getAllFiltered = (specializationId, departmentId) => {
     return httpClient.get(`/brigades?specializationId=${specializationId}&departmentId=${departmentId}`);
 }
 
-const exported = { getAll, getAllBy };
+const exported = { getAll, getAllFiltered };
 
 export default exported;

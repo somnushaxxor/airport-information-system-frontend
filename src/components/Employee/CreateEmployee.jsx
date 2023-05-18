@@ -190,7 +190,7 @@ export default function CreateEmployee() {
                         disabled={isBrigadeSelectionCheckboxDisabled()}
                         onChange={(e) => {
                             if (e.target.checked) {
-                                brigadeService.getAllBy(specializationId, departmentId)
+                                brigadeService.getAllFiltered(specializationId, departmentId)
                                     .then(response => {
                                         setBrigades(response.data);
                                     })
