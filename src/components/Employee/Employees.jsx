@@ -78,7 +78,7 @@ export default function Employees() {
             })
             .catch(() => {
                 sendError(errorMessage);
-            })
+            });
     }
 
     const handleSearch = (event) => {

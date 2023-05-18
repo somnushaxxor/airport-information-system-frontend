@@ -41,7 +41,7 @@ export default function AirplaneModels() {
             })
             .catch(() => {
                 sendError(errorMessage);
-            })
+            });
     }
 
     return (

@@ -39,16 +39,16 @@ export default function Brigades() {
                 sendSuccess("Brigade successfully deleted")
                 reloadBrigades();
             })
-            .catch(error => {
-                sendError(error.response.data.message);
-            })
+            .catch(() => {
+                sendError(errorMessage);
+            });
     }
 
     return (
         <div className="content">
             <h1 className="text-uppercase mb-30">Brigades</h1>
             <div className="d-flex flex-wrap">
-                <Link to="/departments/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                <Link to="/brigades/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
                     Create brigade
                 </Link>
                 <h4 className="mb-20">

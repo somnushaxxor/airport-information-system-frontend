@@ -18,6 +18,7 @@ import CreateAirplaneModel from './components/AirplaneModel/CreateAirplaneModel'
 import UpdateAirplaneModel from './components/AirplaneModel/UpdateAirplaneModel';
 import AppointDepartmentChief from './components/Department/AppointDepartmentChief';
 import RemoveDepartmentChief from './components/Department/RemoveDepartmentChief';
+import CreateBrigade from './components/Brigade/CreateBrigade';
 
 export default function App() {
 
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/departments/chief-removal" exact element={<RemoveDepartmentChief />} />
 
         <Route path="/brigades" exact element={<Brigades />} />
+        <Route path="/brigades/create" exact element={<CreateBrigade />} />
 
         <Route path="/airplanes/models" exact element={<AirplaneModels />} />
         <Route path="/airplanes/models/create" exact element={<CreateAirplaneModel />} />

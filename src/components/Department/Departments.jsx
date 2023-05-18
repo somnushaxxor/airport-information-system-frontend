@@ -41,7 +41,7 @@ export default function Departments() {
             })
             .catch(() => {
                 sendError(errorMessage);
-            })
+            });
     }
 
     return (
