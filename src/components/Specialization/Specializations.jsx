@@ -36,7 +36,7 @@ export default function Specializations() {
     const handleSpecializationDelete = (id) => {
         specializationService.deleteById(id)
             .then(() => {
-                sendSuccess("Specialization successfully deleted.")
+                sendSuccess("Specialization successfully deleted")
                 reloadSpecializations();
             })
             .catch(() => {
@@ -48,7 +48,7 @@ export default function Specializations() {
         <div className="content">
             <h1 className="text-uppercase mb-30">Specializations</h1>
             <div className="d-flex flex-wrap">
-                <Link to="/departments/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                <Link to="/specializations/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
                     Create specialization
                 </Link>
                 <h4 className="mb-20">

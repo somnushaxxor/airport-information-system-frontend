@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { sendError, sendSuccess, errorMessage } from "../NotificationManager";
-import departmentService from "../../services/department.service";
 import { useNavigate, useParams } from "react-router-dom";
+import specializationService from "../../services/specialization.service";
 
-export default function UpdateDepartment() {
+export default function UpdateSpecialization() {
     const [name, setName] = useState("");
 
     const [validated, setValidated] = useState(false);
@@ -17,7 +17,7 @@ export default function UpdateDepartment() {
     }, []);
 
     const init = () => {
-        departmentService.getById(id)
+        specializationService.getById(id)
             .then(response => {
                 setName(response.data.name);
             })
@@ -38,10 +38,10 @@ export default function UpdateDepartment() {
             setValidated(true);
         } else {
             setValidated(false);
-            const department = { id, name };
-            departmentService.update(department)
+            const specialization = { id, name };
+            specializationService.update(specialization)
                 .then(() => {
-                    sendSuccess("Department successfully updated");
+                    sendSuccess("Specialization successfully updated");
                 })
                 .catch(error => {
                     if (error.response && error.response.status === 400) {
@@ -55,7 +55,7 @@ export default function UpdateDepartment() {
 
     return (
         <div className="content">
-            <h1 className="text-uppercase mb-30">Update department</h1>
+            <h1 className="text-uppercase mb-30">Update specialization</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>

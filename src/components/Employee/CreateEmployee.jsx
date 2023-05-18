@@ -74,7 +74,7 @@ export default function CreateEmployee() {
             };
             employeesService.create(employee)
                 .then(() => {
-                    sendSuccess("Employee successfully created.");
+                    sendSuccess("Employee successfully created");
                     setBrigadeSelectionCheckboxChecked(false);
                     form.reset();
                     clearState();

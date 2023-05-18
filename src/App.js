@@ -11,6 +11,13 @@ import NotFound from './components/NotFound';
 import CreateDepartment from './components/Department/CreateDepartment';
 import UpdateDepartment from './components/Department/UpdateDepartment';
 import Specializations from './components/Specialization/Specializations';
+import CreateSpecialization from './components/Specialization/CreateSpecialization';
+import UpdateSpecialization from './components/Specialization/UpdateSpecialization';
+import AirplaneModels from './components/AirplaneModel/AirplaneModels';
+import CreateAirplaneModel from './components/AirplaneModel/CreateAirplaneModel';
+import UpdateAirplaneModel from './components/AirplaneModel/UpdateAirplaneModel';
+import AppointDepartmentChief from './components/Department/AppointDepartmentChief';
+import RemoveDepartmentChief from './components/Department/RemoveDepartmentChief';
 
 export default function App() {
 
@@ -26,12 +33,20 @@ export default function App() {
         <Route path="/employees/:id/update" exact element={<UpdateEmployee />} />
 
         <Route path="/specializations" exact element={<Specializations />} />
+        <Route path="/specializations/create" exact element={<CreateSpecialization />} />
+        <Route path="/specializations/:id/update" exact element={<UpdateSpecialization />} />
 
         <Route path="/departments" exact element={<Departments />} />
         <Route path="/departments/create" exact element={<CreateDepartment />} />
         <Route path="/departments/:id/update" exact element={<UpdateDepartment />} />
+        <Route path="/departments/chief-appointment" exact element={<AppointDepartmentChief />} />
+        <Route path="/departments/chief-removal" exact element={<RemoveDepartmentChief />} />
 
         <Route path="/brigades" exact element={<Brigades />} />
+
+        <Route path="/airplanes/models" exact element={<AirplaneModels />} />
+        <Route path="/airplanes/models/create" exact element={<CreateAirplaneModel />} />
+        <Route path="/airplanes/models/:id/update" exact element={<UpdateAirplaneModel />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

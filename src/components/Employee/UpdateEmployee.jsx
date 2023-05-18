@@ -63,10 +63,10 @@ export default function UpdateEmployee() {
                 }
             })
             .catch(error => {
-                if (!error.response) {
-                    sendError(errorMessage);
-                } else {
+                if (error.response && error.response.status === 404) {
                     navigate("/404");
+                } else {
+                    sendError(errorMessage);
                 }
             });
 
@@ -111,14 +111,10 @@ export default function UpdateEmployee() {
             };
             employeesService.update(employee)
                 .then(() => {
-                    sendSuccess("Employee successfully updated.");
+                    sendSuccess("Employee successfully updated");
                 })
-                .catch(error => {
-                    if (!error.response) {
-                        sendError(errorMessage);
-                    } else {
-                        sendError(error.response.data.message);
-                    }
+                .catch(() => {
+                    sendError(errorMessage);
                 });
         }
     };

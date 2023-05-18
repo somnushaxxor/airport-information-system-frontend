@@ -36,7 +36,7 @@ export default function Brigades() {
     const handleBrigadeDelete = (id) => {
         brigadeService.deleteById(id)
             .then(() => {
-                sendSuccess("Brigade successfully deleted.")
+                sendSuccess("Brigade successfully deleted")
                 reloadBrigades();
             })
             .catch(error => {

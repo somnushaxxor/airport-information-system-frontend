@@ -15,12 +15,24 @@ export default function Header() {
 
             <Navbar className="header-menu" bg="primary">
                 <Nav className="me-auto">
-                    <NavDropdown title="Employees">
+                    <NavDropdown title="Staff">
                         <NavDropdown.Item href="/employees">Employees</NavDropdown.Item>
                         <NavDropdown.Item href="/specializations">Specializations</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href="/departments">Departments</Nav.Link>
+                    <NavDropdown title="Departments">
+                        <NavDropdown.Item href="/departments">Departments</NavDropdown.Item>
+                        <NavDropdown.Item href="/departments/chief-appointment">
+                            Department chief appointment
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/departments/chief-removal">
+                            Department chief removal
+                        </NavDropdown.Item>
+                    </NavDropdown>
                     <Nav.Link href="/brigades">Brigades</Nav.Link>
+                    <NavDropdown title="Airplanes">
+                        <NavDropdown.Item href="/airplanes">Airplanes</NavDropdown.Item>
+                        <NavDropdown.Item href="/airplanes/models">Models</NavDropdown.Item>
+                    </NavDropdown>
                 </Nav>
             </Navbar>
 

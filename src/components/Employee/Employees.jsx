@@ -73,15 +73,11 @@ export default function Employees() {
     const handleEmployeeDelete = (id) => {
         employeesService.deleteById(id)
             .then(() => {
-                sendSuccess("Employee successfully deleted.")
+                sendSuccess("Employee successfully deleted")
                 reloadEmployees();
             })
-            .catch(error => {
-                if (!error.response) {
-                    sendError(errorMessage);
-                } else {
-                    sendError(error.response.data.message);
-                }
+            .catch(() => {
+                sendError(errorMessage);
             })
     }
 

@@ -19,15 +19,15 @@ export default function CreateDepartment() {
             const department = { name };
             departmentService.create(department)
                 .then(() => {
-                    sendSuccess("Department successfully created.");
+                    sendSuccess("Department successfully created");
                     form.reset();
                     clearState();
                 })
                 .catch(error => {
-                    if (!error.response) {
-                        sendError(errorMessage);
-                    } else {
+                    if (error.response && error.response.status === 400) {
                         sendError(error.response.data.message);
+                    } else {
+                        sendError(errorMessage);
                     }
                 });
         }

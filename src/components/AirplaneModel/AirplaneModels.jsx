@@ -4,40 +4,40 @@ import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge'
 import { Button } from 'react-bootstrap';
 import { sendError, sendSuccess, errorMessage } from '../NotificationManager';
-import departmentService from '../../services/department.service';
+import airplaneModelService from '../../services/airplaneModel.service';
 
-export default function Departments() {
-    const [departments, setDepartments] = useState([]);
+export default function AirplaneModels() {
+    const [airplaneModels, setAirplaneModels] = useState([]);
 
     useEffect(() => {
         init();
     }, []);
 
     const init = () => {
-        departmentService.getAll()
+        airplaneModelService.getAll()
             .then(response => {
-                setDepartments(response.data);
+                setAirplaneModels(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const reloadDepartments = () => {
-        departmentService.getAll()
+    const reloadAirplaneModels = () => {
+        airplaneModelService.getAll()
             .then(response => {
-                setDepartments(response.data);
+                setAirplaneModels(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const handleDepartmentDelete = (id) => {
-        departmentService.deleteById(id)
+    const handleAirplaneModelDelete = (id) => {
+        airplaneModelService.deleteById(id)
             .then(() => {
-                sendSuccess("Department successfully deleted")
-                reloadDepartments();
+                sendSuccess("Airplane model successfully deleted")
+                reloadAirplaneModels();
             })
             .catch(() => {
                 sendError(errorMessage);
@@ -46,35 +46,35 @@ export default function Departments() {
 
     return (
         <div className="content">
-            <h1 className="text-uppercase mb-30">Departments</h1>
+            <h1 className="text-uppercase mb-30">Airplane models</h1>
             <div className="d-flex flex-wrap">
-                <Link to="/departments/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
-                    Create department
+                <Link to="/airplanes/models/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                    Create airplane model
                 </Link>
                 <h4 className="mb-20">
-                    <Badge bg="dark">Total: {departments.length}</Badge>
+                    <Badge bg="dark">Total: {airplaneModels.length}</Badge>
                 </h4>
                 <Table striped bordered hover variant="dark">
                     <thead >
                         <tr>
                             <th>Name</th>
-                            <th>Chief</th>
+                            <th>Passengers capacity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            departments.map(department => (
-                                <tr key={department.id}>
-                                    <td>{department.name}</td>
-                                    <td>{department.chiefName}</td>
+                            airplaneModels.map(airplaneModel => (
+                                <tr key={airplaneModel.id}>
+                                    <td>{airplaneModel.name}</td>
+                                    <td>{airplaneModel.passengersCapacity}</td>
                                     <td>
                                         <Link className="btn btn-primary" style={{ marginRight: 10 }}
-                                            to={`/departments/${department.id}/update`}>
+                                            to={`/airplanes/models/${airplaneModel.id}/update`}>
                                             Update
                                         </Link>
                                         <Button variant="danger"
-                                            onClick={(e) => { handleDepartmentDelete(department.id) }}>
+                                            onClick={(e) => { handleAirplaneModelDelete(airplaneModel.id) }}>
                                             Delete
                                         </Button>
                                     </td>

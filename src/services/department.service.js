@@ -20,6 +20,14 @@ const deleteById = (id) => {
     return httpClient.delete(`/departments/${id}`);
 }
 
-const exported = { getAll, getById, create, update, deleteById };
+const appointDepartmentChief = (data) => {
+    return httpClient.post(`/departments/chief-appointment`, data);
+}
+
+const removeDepartmentChief = (id) => {
+    return httpClient.post(`/departments/${id}/chief-removal`);
+}
+
+const exported = { getAll, getById, create, update, deleteById, appointDepartmentChief, removeDepartmentChief };
 
 export default exported;
