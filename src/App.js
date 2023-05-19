@@ -21,6 +21,9 @@ import RemoveDepartmentChief from './components/Department/RemoveDepartmentChief
 import CreateBrigade from './components/Brigade/CreateBrigade';
 import UpdateBrigade from './components/Brigade/UpdateBrigade';
 import Routes from './components/Route/Routes';
+import FlightCategories from './components/FlightCategory/FlightCategories';
+import UpdateFlightCategory from './components/FlightCategory/UpdateFlightCategory';
+import CreateFlightCategory from './components/FlightCategory/CreateFlightCategory';
 
 export default function App() {
 
@@ -54,6 +57,10 @@ export default function App() {
         <Route path="/airplanes/models/:id/update" exact element={<UpdateAirplaneModel />} />
 
         <Route path="/routes" exact element={<Routes />} />
+
+        <Route path="/flights/categories" exact element={<FlightCategories />} />
+        <Route path="/flights/categories/create" exact element={<CreateFlightCategory />} />
+        <Route path="/flights/categories/:id/update" exact element={<UpdateFlightCategory />} />
 
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
