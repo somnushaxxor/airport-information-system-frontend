@@ -24,6 +24,9 @@ import Routes from './components/Route/Routes';
 import FlightCategories from './components/FlightCategory/FlightCategories';
 import UpdateFlightCategory from './components/FlightCategory/UpdateFlightCategory';
 import CreateFlightCategory from './components/FlightCategory/CreateFlightCategory';
+import Airplanes from './components/Airplane/Airplanes';
+import CreateAirplane from './components/Airplane/CreateAirplane';
+import UpdateAirplane from './components/Airplane/UpdateAirplane';
 
 export default function App() {
 
@@ -55,6 +58,10 @@ export default function App() {
         <Route path="/airplanes/models" exact element={<AirplaneModels />} />
         <Route path="/airplanes/models/create" exact element={<CreateAirplaneModel />} />
         <Route path="/airplanes/models/:id/update" exact element={<UpdateAirplaneModel />} />
+
+        <Route path="/airplanes" exact element={<Airplanes />} />
+        <Route path="/airplanes/create" exact element={<CreateAirplane />} />
+        <Route path="/airplanes/:id/update" exact element={<UpdateAirplane />} />
 
         <Route path="/routes" exact element={<Routes />} />
 

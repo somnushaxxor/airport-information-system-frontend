@@ -24,6 +24,21 @@ const deleteById = (id) => {
     return httpClient.delete(`/brigades/${id}`);
 }
 
-const exported = { getAll, getAllFiltered, getById, create, update, deleteById };
+const getAllNonemptyPilotsBrigades = () => {
+    return httpClient.get(`/brigades/pilots`);
+}
+
+const getAllNonemptyTechniciansBrigades = () => {
+    return httpClient.get(`/brigades/technicians`);
+}
+
+const getAllNonemptyServiceBrigades = () => {
+    return httpClient.get(`/brigades/service`);
+}
+
+const exported = {
+    getAll, getAllFiltered, getById, create, update, deleteById, getAllNonemptyPilotsBrigades,
+    getAllNonemptyTechniciansBrigades, getAllNonemptyServiceBrigades
+};
 
 export default exported;

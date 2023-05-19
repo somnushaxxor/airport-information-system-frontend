@@ -113,8 +113,12 @@ export default function UpdateEmployee() {
                 .then(() => {
                     sendSuccess("Employee successfully updated");
                 })
-                .catch(() => {
-                    sendError(errorMessage);
+                .catch(error => {
+                    if (error.response && error.response.status === 400) {
+                        sendError(error.response.data.message);
+                    } else {
+                        sendError(errorMessage);
+                    }
                 });
         }
     };
@@ -159,8 +163,8 @@ export default function UpdateEmployee() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Joined at</Form.Label>
-                    <Form.Control type="date" max={new Date().toLocaleDateString("fr-ca")} value={joinedAt}
-                        placeholder="Joined at" onChange={(e) => {
+                    <Form.Control type="date" min={dateOfBirth} max={new Date().toLocaleDateString("fr-ca")}
+                        value={joinedAt} placeholder="Joined at" onChange={(e) => {
                             setJoinedAt(e.target.value);
                         }} required />
                 </Form.Group>
