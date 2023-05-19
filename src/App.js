@@ -1,5 +1,5 @@
 import Header from './components/Header';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router-dom';
 import Employees from './components/Employee/Employees';
 import CreateEmployee from './components/Employee/CreateEmployee';
 import UpdateEmployee from './components/Employee/UpdateEmployee';
@@ -19,6 +19,8 @@ import UpdateAirplaneModel from './components/AirplaneModel/UpdateAirplaneModel'
 import AppointDepartmentChief from './components/Department/AppointDepartmentChief';
 import RemoveDepartmentChief from './components/Department/RemoveDepartmentChief';
 import CreateBrigade from './components/Brigade/CreateBrigade';
+import UpdateBrigade from './components/Brigade/UpdateBrigade';
+import Routes from './components/Route/Routes';
 
 export default function App() {
 
@@ -26,7 +28,7 @@ export default function App() {
     <div className="wrapper">
       <Header />
 
-      <Routes>
+      <RouterRoutes>
         <Route path="/" exact element={<Home />} />
 
         <Route path="/employees" exact element={<Employees />} />
@@ -51,8 +53,10 @@ export default function App() {
         <Route path="/airplanes/models/create" exact element={<CreateAirplaneModel />} />
         <Route path="/airplanes/models/:id/update" exact element={<UpdateAirplaneModel />} />
 
+        <Route path="/routes" exact element={<Routes />} />
+
         <Route path="*" element={<NotFound />} />
-      </Routes>
+      </RouterRoutes>
 
       <NotificationManager />
     </div >
