@@ -45,6 +45,7 @@ export default function App() {
 
         <Route path="/brigades" exact element={<Brigades />} />
         <Route path="/brigades/create" exact element={<CreateBrigade />} />
+        <Route path="/brigades/:id/update" exact element={<UpdateBrigade />} />
 
         <Route path="/airplanes/models" exact element={<AirplaneModels />} />
         <Route path="/airplanes/models/create" exact element={<CreateAirplaneModel />} />
