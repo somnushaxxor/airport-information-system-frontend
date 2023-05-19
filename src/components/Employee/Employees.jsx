@@ -76,8 +76,12 @@ export default function Employees() {
                 sendSuccess("Employee successfully deleted")
                 reloadEmployees();
             })
-            .catch(() => {
-                sendError(errorMessage);
+            .catch(error => {
+                if (error.response && error.response.status === 400) {
+                    sendError(error.response.data.message);
+                } else {
+                    sendError(errorMessage);
+                }
             });
     }
 

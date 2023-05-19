@@ -39,8 +39,12 @@ export default function Brigades() {
                 sendSuccess("Brigade successfully deleted")
                 reloadBrigades();
             })
-            .catch(() => {
-                sendError(errorMessage);
+            .catch(error => {
+                if (error.response && error.response.status === 400) {
+                    sendError(error.response.data.message);
+                } else {
+                    sendError(errorMessage);
+                }
             });
     }
 
