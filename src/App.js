@@ -33,6 +33,12 @@ import Header from './shared/components/Header';
 import Home from './shared/components/Home';
 import NotFound from './shared/components/NotFound';
 import NotificationManager from './shared/components/NotificationManager';
+import Attributes from './features/Attribute/Attributes';
+import CreateAttribute from './features/Attribute/CreateAttribute';
+import UpdateAttribute from './features/Attribute/UpdateAttribute';
+import AttributeValues from './features/AttributeValue/AttributeValues';
+import CreateAttributeValue from './features/AttributeValue/CreateAttributeValue';
+import UpdateAttributeValue from './features/AttributeValue/UpdateAttributeValue';
 
 export default function App() {
 
@@ -54,6 +60,14 @@ export default function App() {
         <Route path="/specializations" exact element={<Specializations />} />
         <Route path="/specializations/create" exact element={<CreateSpecialization />} />
         <Route path="/specializations/:id/update" exact element={<UpdateSpecialization />} />
+
+        <Route path="/employees/attributes" exact element={<Attributes />} />
+        <Route path="/employees/attributes/create" exact element={<CreateAttribute />} />
+        <Route path="/employees/attributes/:id/update" exact element={<UpdateAttribute />} />
+
+        <Route path="/employees/attributes/values" exact element={<AttributeValues />} />
+        <Route path="/employees/attributes/values/create" exact element={<CreateAttributeValue />} />
+        <Route path="/employees/attributes/values/:id/update" exact element={<UpdateAttributeValue />} />
 
         <Route path="/departments" exact element={<Departments />} />
         <Route path="/departments/create" exact element={<CreateDepartment />} />

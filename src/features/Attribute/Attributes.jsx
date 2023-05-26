@@ -4,41 +4,41 @@ import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge"
 import { Button } from "react-bootstrap";
 import { sendError, sendSuccess, errorMessage } from "../../shared/components/NotificationManager";
-import flightCategoryService from "../../shared/services/flightCategory.service";
+import attributeService from "../../shared/services/attribute.service";
 
 
-export default function FlightCategories() {
-    const [flightCategories, setFlightCategories] = useState([]);
+export default function Attributes() {
+    const [attributes, setAttributes] = useState([]);
 
     useEffect(() => {
         init();
     }, []);
 
     const init = () => {
-        flightCategoryService.getAll()
+        attributeService.getAll()
             .then(response => {
-                setFlightCategories(response.data);
+                setAttributes(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const reloadFlightCategories = () => {
-        flightCategoryService.getAll()
+    const reloadAttributes = () => {
+        attributeService.getAll()
             .then(response => {
-                setFlightCategories(response.data);
+                setAttributes(response.data);
             })
             .catch(() => {
                 sendError(errorMessage);
             });
     }
 
-    const handleFlightCategoryDelete = (id) => {
-        flightCategoryService.deleteById(id)
+    const handleAttributesDelete = (id) => {
+        attributeService.deleteById(id)
             .then(() => {
-                sendSuccess("Flight category successfully deleted")
-                reloadFlightCategories();
+                sendSuccess("Attribute successfully deleted")
+                reloadAttributes();
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {
@@ -51,33 +51,35 @@ export default function FlightCategories() {
 
     return (
         <div className="content">
-            <h1 className="text-uppercase mb-30">Flight categories</h1>
+            <h1 className="text-uppercase mb-30">Attributes</h1>
             <div className="d-flex flex-wrap">
-                <Link to="/flights/categories/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
-                    Create flight category
+                <Link to="/employees/attributes/create" className="btn btn-success btn-lg mb-20" style={{ marginRight: 10 }}>
+                    Create attribute
                 </Link>
                 <h4 className="mb-20">
-                    <Badge bg="dark">Total: {flightCategories.length}</Badge>
+                    <Badge bg="dark">Total: {attributes.length}</Badge>
                 </h4>
                 <Table striped bordered hover variant="dark">
                     <thead >
                         <tr>
                             <th>Name</th>
+                            <th>Specialization</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            flightCategories.map(flightCategory => (
-                                <tr key={flightCategory.id}>
-                                    <td>{flightCategory.name}</td>
+                            attributes.map(attribute => (
+                                <tr key={attribute.id}>
+                                    <td>{attribute.name}</td>
+                                    <td>{attribute.specializationName}</td>
                                     <td>
                                         <Link className="btn btn-primary" style={{ marginRight: 10 }}
-                                            to={`/flights/categories/${flightCategory.id}/update`}>
+                                            to={`/employees/attributes/${attribute.id}/update`}>
                                             Update
                                         </Link>
                                         <Button variant="danger"
-                                            onClick={(e) => { handleFlightCategoryDelete(flightCategory.id) }}>
+                                            onClick={(e) => { handleAttributesDelete(attribute.id) }}>
                                             Delete
                                         </Button>
                                     </td>

@@ -18,6 +18,8 @@ export default function Header() {
                     <NavDropdown title="Staff">
                         <NavDropdown.Item href="/employees">Employees</NavDropdown.Item>
                         <NavDropdown.Item href="/specializations">Specializations</NavDropdown.Item>
+                        <NavDropdown.Item href="/employees/attributes">Attributes</NavDropdown.Item>
+                        <NavDropdown.Item href="/employees/attributes/values">Attribute values</NavDropdown.Item>
                         <NavDropdown.Item href="/pilots-medical-examinations">Pilots medical examinations</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Departments">
