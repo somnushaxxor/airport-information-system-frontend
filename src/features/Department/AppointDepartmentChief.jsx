@@ -94,7 +94,9 @@ export default function AppointDepartmentChief() {
                         <option value="">Choose employee</option>
                         {
                             employees.map(employee => (
-                                <option key={employee.id} value={employee.id}>{employee.name}</option>
+                                <option key={employee.id} value={employee.id}>
+                                    {employee.firstName + " " + employee.lastName}
+                                </option>
                             ))
                         }
                     </Form.Select>

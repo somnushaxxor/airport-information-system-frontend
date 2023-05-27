@@ -39,6 +39,10 @@ import UpdateAttribute from './features/Attribute/UpdateAttribute';
 import AttributeValues from './features/AttributeValue/AttributeValues';
 import CreateAttributeValue from './features/AttributeValue/CreateAttributeValue';
 import UpdateAttributeValue from './features/AttributeValue/UpdateAttributeValue';
+import AirplaneMaintenanceOperations from './features/AirplaneMaintenanceOperation/AirplaneMaintenanceOperations';
+import CreateAirplaneMaintenanceOperation from './features/AirplaneMaintenanceOperation/CreateAirplaneMaintenanceOperation';
+import CreateFlight from './features/Flight/CreateFlight';
+import UpdateFlight from './features/Flight/UpdateFlight';
 
 export default function App() {
 
@@ -87,6 +91,9 @@ export default function App() {
         <Route path="/airplanes/create" exact element={<CreateAirplane />} />
         <Route path="/airplanes/:id/update" exact element={<UpdateAirplane />} />
 
+        <Route path="/airplane-maintenance-operations" exact element={<AirplaneMaintenanceOperations />} />
+        <Route path="/airplane-maintenance-operations/create" exact element={<CreateAirplaneMaintenanceOperation />} />
+
         <Route path="/routes" exact element={<Routes />} />
         <Route path="/routes/create" exact element={<CreateRoute />} />
         <Route path="/routes/:id/update" exact element={<UpdateRoute />} />
@@ -96,6 +103,8 @@ export default function App() {
         <Route path="/flights/categories/:id/update" exact element={<UpdateFlightCategory />} />
 
         <Route path="/flights" exact element={<Flights />} />
+        <Route path="/flights/create" exact element={<CreateFlight />} />
+        <Route path="/flights/:id/update" exact element={<UpdateFlight />} />
 
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>

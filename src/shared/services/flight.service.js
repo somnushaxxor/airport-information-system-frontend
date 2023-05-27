@@ -4,8 +4,8 @@ const getAll = () => {
     return httpClient.get(`/flights`);
 }
 
-const getAllFiltered = () => {
-    return httpClient.get(`/flights`);
+const getAllFiltered = (airplaneId, airplaneModelId, routeId, categoryId, ticketPrice) => {
+    return httpClient.get(`/flights?airplaneId=${airplaneId}&airplaneModelId=${airplaneModelId}&routeId=${routeId}&categoryId=${categoryId}&ticketPrice=${ticketPrice}`);
 }
 
 const create = (data) => {

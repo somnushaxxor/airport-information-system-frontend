@@ -32,12 +32,15 @@ export default function Header() {
                         </NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href="/brigades">Brigades</Nav.Link>
-                    <NavDropdown title="Airplanes">
+                    <NavDropdown title="Airplane fleet">
                         <NavDropdown.Item href="/airplanes">Airplanes</NavDropdown.Item>
                         <NavDropdown.Item href="/airplanes/models">Models</NavDropdown.Item>
+                        <NavDropdown.Item href="/airplane-maintenance-operations">
+                            Airplane maintenance operations
+                        </NavDropdown.Item>
                     </NavDropdown>
+                    <Nav.Link href="/routes">Routes</Nav.Link>
                     <NavDropdown title="Flights">
-                        <NavDropdown.Item href="/routes">Routes</NavDropdown.Item>
                         <NavDropdown.Item href="/flights">Flights</NavDropdown.Item>
                         <NavDropdown.Item href="/flights/categories">Flight categories</NavDropdown.Item>
                     </NavDropdown>
