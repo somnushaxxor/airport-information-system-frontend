@@ -44,6 +44,7 @@ export default function Header() {
                         <NavDropdown.Item href="/flights">Flights</NavDropdown.Item>
                         <NavDropdown.Item href="/flights/categories">Flight categories</NavDropdown.Item>
                     </NavDropdown>
+                    <Nav.Link href="/tickets">Tickets</Nav.Link>
                 </Nav>
             </Navbar>
 

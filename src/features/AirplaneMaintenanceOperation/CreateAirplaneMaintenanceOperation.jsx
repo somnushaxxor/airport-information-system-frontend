@@ -43,6 +43,7 @@ export default function CreateAirplaneMaintenanceOperation() {
                 .then(() => {
                     sendSuccess("Airplane maintenance operation successfully created");
                     form.reset();
+                    setRepairRequiredCheckboxChecked(false);
                     clearState();
                 })
                 .catch(error => {
@@ -57,7 +58,7 @@ export default function CreateAirplaneMaintenanceOperation() {
 
     const clearState = () => {
         setDoneAt("");
-        setRepairRequired("");
+        setRepairRequired(false);
         setAirplaneId("");
     }
 

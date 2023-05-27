@@ -43,6 +43,9 @@ import AirplaneMaintenanceOperations from './features/AirplaneMaintenanceOperati
 import CreateAirplaneMaintenanceOperation from './features/AirplaneMaintenanceOperation/CreateAirplaneMaintenanceOperation';
 import CreateFlight from './features/Flight/CreateFlight';
 import UpdateFlight from './features/Flight/UpdateFlight';
+import Tickets from './features/Ticket/Tickets';
+import CreateTicket from './features/Ticket/CreateTicket';
+import UpdateTicket from './features/Ticket/UpdateTicket';
 
 export default function App() {
 
@@ -105,6 +108,10 @@ export default function App() {
         <Route path="/flights" exact element={<Flights />} />
         <Route path="/flights/create" exact element={<CreateFlight />} />
         <Route path="/flights/:id/update" exact element={<UpdateFlight />} />
+
+        <Route path="/tickets" exact element={<Tickets />} />
+        <Route path="/tickets/create" exact element={<CreateTicket />} />
+        <Route path="/tickets/:id/update" exact element={<UpdateTicket />} />
 
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
